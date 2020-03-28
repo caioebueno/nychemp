@@ -25,6 +25,21 @@ Object.size = function(obj) {
 };
 
 
+function  newObj(response){
+    
+    var y = 0;
+
+    var obj = {};
+    
+    for (el in response) {
+
+        obj[y] = response[el];
+        y++;
+
+    }
+    return obj
+}
+
 //use index on a object ->
 
 function  indexObj(response){
@@ -53,8 +68,10 @@ function arrayCount(array){
         for(y = 0; y < array.length; y++){
 
             if(currentIten == array[y]){
+            
                 count = count + 1;
             }else{
+                
                 obj[currentIten] = 0;
             }
 
@@ -106,10 +123,11 @@ function getKeyByValue(object, value) {
         
             console.log(title);     
             var productDiv = document.createElement("div");
-            productDiv.setAttribute("class", "col-6");
+            productDiv.setAttribute("class", "col-md-6 col-12 productCard");
+            productDiv.setAttribute("align", "center");
             var dataName = "getAttribute('data-name')";
             var id = i;
-            var innerText = "<div class='card' style='width: 18rem;'><img src='" + url + "' class='card-img-top' alt='...'><div class='card-body'><h5 class='card-title'>" + title + "</h5><p class='card-text'>" + price + "</p><button href='#' onclick='showProduct(event, this.id)' id='" + id + "' class='btn btn-primary' data-name=" + title + ">Go somewhere</button> </div></div>";
+            var innerText = "<div class='card' style='width: 18rem;'><img src='" + url + "' class='card-img-top' alt='...'><div class='card-body'><h5 class='card-title'>" + title + "</h5><p class='card-text'>" + price + "</p><button href='#' onclick='showProduct(event, this.id)' id='" + id + "' class='btn btn-primary' data-name=" + title + ">See Product</button> </div></div>";
             productDiv.innerHTML = innerText;
             var shopContainer = document.getElementById("shopContainer");
             shopContainer.append(productDiv);
@@ -126,7 +144,14 @@ if (document.title == "Shop"){
     displayProducts();
 }   
 
+if(document.title == "Log In"){
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            location.replace("user.html");
+        }else{
 
+        }
+})}
 
 //LOG IN AND SIGN UP
 
@@ -177,6 +202,11 @@ function signUp(event){
 
 }
 
+function logOut(){
+    firebase.auth().signOut()
+    location.replace("login.html")
+}
+
 function userPage(){
 
     firebase.auth().onAuthStateChanged(function(user) {
@@ -185,11 +215,42 @@ function userPage(){
           var email = user.email;
           console.log(email);
           var userInfo = document.getElementById("userInfo");
-          userInfo.innerHTML = email;
+          userInfo.innerHTML = email + "<button class='btn btn-primary' onclick='logOut()' id='logOutBtn'>Log Out</button>";
 
           var orders = user.orders;
           console.log(orders);
+
+          var starCountRef = firebase.database().ref('orders');
+          starCountRef.on('value', async function(snapshot) {
           
+
+            console.log(snapshot.val());
+            var response = snapshot.val();
+            indexObj(response);
+            
+
+           
+             for(x = 0; x < Object.keys(response).length - 1; x++){
+                 console.log(Object.keys(response).length)
+                 var orederNumber = response[x];
+                 if(response[x].email == user.email){
+
+                    var container = document.getElementById("userOrders");
+                    var div = document.createElement("div");
+                    indexObj(response[x].Products);
+                    var innerText = x + 1;
+
+                    for(i = 0; i < Object.keys(response[x].Products).length/2; i++){
+
+                    console.log(response[x].Products);
+                    var text = response[x].Products[i].id + response[x].Products[i].quantity + response[x].price;
+                    
+
+                 }
+                 div.innerHTML = innerText;
+                 container.append(div);
+             }
+          }});
           
         } else {
 
@@ -215,6 +276,7 @@ function showProduct(event, id){
 function singleProduct(){
     
     var productContainer = document.getElementById("productContainer");
+    
     var starCountRef = firebase.database().ref('products');
 
     const queryString = location.search;
@@ -242,7 +304,7 @@ function singleProduct(){
         var storageRef = firebase.storage().ref("img/" + imgUrl + "");
         await storageRef.getDownloadURL().then(function(url) {
 
-        var innerText = "<div class='card' style='width: 18rem;'><img src='" + url + "' class='card-img-top' alt='...'><div class='card-body'><h5 class='card-title'>" + name + "</h5><p class='card-text'>" + price + "</p><button href='#' onclick='addToCart()' id='' class='btn btn-primary' data-name=" + name + ">Go somewhere</button> </div></div>";
+        var innerText = "<div class='card' style='width: 18rem;'><img src='" + url + "' class='card-img-top' alt='...'><div class='card-body'><h5 class='card-title'>" + name + "</h5><p class='card-text'>" + price + "</p><button href='#' onclick='addToCart()' id='' class='btn btn-primary' data-name=" + name + ">Add To Cart</button> </div></div>";
         productContainer.innerHTML = innerText;
         console.log(url);
         });
@@ -277,46 +339,63 @@ function showCart(){
 
     var totalPrice = 0;
     var itens = localStorage.getItem("cart");
-    console.log(itens);
     var itensArray = itens.split(",");
-    console.log(itensArray);
     var arrayCountVar = arrayCount(itensArray);
-
+   console.log(arrayCountVar);
     var starCountRef = firebase.database().ref('products');
     starCountRef.on('value', function(snapshot) {
 
     var response = snapshot.val();
     indexObj(response);
-    console.log(arrayCountVar);
+    
     var table = document.getElementById("cartTable");
+    var trTitle = document.createElement("tr");
+    var thProduct = document.createElement("th");
+    var thQuantity = document.createElement("th");
+    var thPrice = document.createElement("th");
+    thProduct.innerHTML = "Product";
+    thQuantity.innerHTML = "Quantity";
+    thPrice.innerHTML = "Price";
+    trTitle.append(thProduct,thQuantity,thPrice);
+    table.append(trTitle);
+    
+    
+    for(var i = 0; i < Object.keys(arrayCountVar).length; i++){
 
-    for(i = 0; i < Object.keys(arrayCountVar).length; i++){
-
-        var keyId = getKeyByValue(arrayCountVar, arrayCountVar[i]);        
-        console.log(keyId);
+        
+        var keyId = Object.keys(arrayCountVar)[i];  
+       
+       
         var tr = document.createElement("tr");
         var nameTh = document.createElement("th");
         var priceTh = document.createElement("th");
         var quantity = document.createElement("th");
-        quantity.innerHTML = arrayCountVar[i];
+        quantity.innerHTML = Object.keys(arrayCountVar)[i];
         nameTh.innerHTML = response[parseInt(keyId)].name;
-        priceTh.innerHTML = response[parseInt(keyId)].price;
-        tr.append(nameTh, priceTh, quantity);
+        priceTh.innerHTML = response[parseInt(keyId)].price.replace(",",".");
+        tr.append(nameTh, quantity, priceTh);
         table.append(tr);
-        var newPrice = parseInt(response[parseInt(keyId)].price) * parseInt(arrayCountVar[i]);
-       
+        
+        var newPrice = parseFloat(response[parseInt(keyId)].price.replace(",",".")) * parseInt(Object.keys(arrayCountVar)[i]);
+      
         totalPrice = totalPrice + newPrice;
 
     }
     var tr = document.createElement("tr");
     var th = document.createElement("th");
     th.innerHTML = totalPrice;
-    tr.append(th);
+    var thFill1 = document.createElement("th");
+    var thFill2 = document.createElement("th");
+    tr.append(thFill1, thFill2, th);
     table.append(tr);
 
     
 
 });
+
+
+
+
 
 
 function checkOut(){
@@ -330,25 +409,32 @@ function checkOut(){
          starCountRef.once('value').then(async function(snapshot) {
          
             var response = snapshot.val();
-        
-            indexObj(arrayCountVar);
+            var products = localStorage.getItem("cart");
+            var productsObj = arrayCount(localStorage.getItem("cart"));
+            console.log(products);
+            
+            console.log(productsObj);
+            
            
-
-            firebase.database().ref('orders/' + Object.keys(response).length).set({
+            console.log(parseInt(Object.keys(response).length) + 1);
+            var idNum = parseInt(Object.keys(response).length) + 1;
+            firebase.database().ref('orders/' + idNum).set({
 
                 email: email,
                 price: totalPrice,
 
               });
 
-              console.log(Object.keys(arrayCountVar).length);
-
-            for(i = 0; i < Object.keys(arrayCountVar).length; i++){
-         
-                console.log("done");
-                firebase.database().ref('orders/' + Object.keys(response).length +  "/Products").push({
-                     id: getKeyByValue(arrayCountVar, arrayCountVar[i]),
-                     quantity: arrayCountVar[i],
+              indexObj(productsObj);
+              console.log(Object.keys(productsObj).length);
+            for(i = 0; i < Object.keys(productsObj).length/2; i++){
+                
+                
+                
+                firebase.database().ref('orders/' + idNum +  "/Products").push({
+                    
+                     id: getKeyByValue(productsObj, productsObj[i]),
+                     quantity: productsObj[i],
                   });
             }
 
@@ -373,7 +459,14 @@ if(document.title == "Cart"){
 
 
 
+function clearCart(){
 
+    localStorage.clear("cart");
+    showCart();
+}
+
+var btnClearCart = document.getElementById("clearCart");
+btnClearCart.addEventListener("click", clearCart);
 
 
 
