@@ -25,7 +25,7 @@ Object.size = function(obj) {
 };
 
 
-function  newObj(response){
+function  newObjVar(response){
     
     var y = 0;
 
@@ -341,7 +341,7 @@ function showCart(){
     var itens = localStorage.getItem("cart");
     var itensArray = itens.split(",");
     var arrayCountVar = arrayCount(itensArray);
-   console.log(arrayCountVar);
+    console.log(arrayCountVar);
     var starCountRef = firebase.database().ref('products');
     starCountRef.on('value', function(snapshot) {
 
@@ -361,7 +361,8 @@ function showCart(){
     
     
     for(var i = 0; i < Object.keys(arrayCountVar).length; i++){
-
+        var jk = newObjVar(arrayCountVar);
+        console.log(jk);
         
         var keyId = Object.keys(arrayCountVar)[i];  
        
@@ -370,13 +371,13 @@ function showCart(){
         var nameTh = document.createElement("th");
         var priceTh = document.createElement("th");
         var quantity = document.createElement("th");
-        quantity.innerHTML = Object.keys(arrayCountVar)[i];
+        quantity.innerHTML = jk[i];
         nameTh.innerHTML = response[parseInt(keyId)].name;
         priceTh.innerHTML = response[parseInt(keyId)].price.replace(",",".");
         tr.append(nameTh, quantity, priceTh);
         table.append(tr);
         
-        var newPrice = parseFloat(response[parseInt(keyId)].price.replace(",",".")) * parseInt(Object.keys(arrayCountVar)[i]);
+        var newPrice = parseFloat(response[parseInt(keyId)].price.replace(",",".")) * parseInt(jk[i]);
       
         totalPrice = totalPrice + newPrice;
 
