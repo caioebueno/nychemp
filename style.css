@@ -1,4 +1,7 @@
-html,body{ margin:0; padding:0; height:100%; width:100%; font-size: 16px;}
+html,body{ margin:0; padding:0; height:100%; width:100%; font-size: 16px;font-weight: bold;}
+body{
+    font-weight: bold;
+}
 #navbar{
     background-color:black;
     color: white;
@@ -129,13 +132,13 @@ html,body{ margin:0; padding:0; height:100%; width:100%; font-size: 16px;}
     width: 100%;
 }
 .productBtn{
-    background-color:rgba(20, 51, 86,0.5);;
+    background-color:rgba(20, 51, 86);;
     color: #FAFAFA;
     font-family: 'Roboto Condensed', sans-serif;
     font-style: italic;
-    width: 170px;
-    height: 65px;
-    font-size: 25px;
+    width: 120px;
+    height: 30px;
+    font-size: 17px;
     border-radius: 50px;
 
 }
@@ -158,4 +161,90 @@ html,body{ margin:0; padding:0; height:100%; width:100%; font-size: 16px;}
 }
 .productCard{
     padding-top: 30px;
+}
+.imgProductB{
+    height: 270px;
+    widows: 270px;
+    
+}
+.productDescRow{
+    font-weight: 200;
+    font-family: 'Roboto Condensed', sans-serif;
+    line-height: 160%;
+    word-spacing: 3px;
+    font-size: 18px;
+}
+.productPriceRow{
+    font-size: 16px;
+}
+.prodcutNameRow{
+    font-weight: bold;
+    font-style: italic;
+    font-size: 23px;
+    font-family: 'Roboto Condensed', sans-serif;
+}
+.productPadding{
+    padding: 5px;
+}
+#shopContainer{
+    padding-left: 170px;
+    padding-right: 170px;
+}
+#h3shop{
+    font-family: 'Roboto Condensed', sans-serif;
+    font-weight: bold;
+    font-style: italic;
+    text-align: center;
+    width: 100%;
+    padding-top: 40px;
+}
+#pshop{
+    padding: 25px;
+    font-style: italic;
+    text-align: center;
+    font-size: 18px;
+    width: 100%;
+    position: relative;
+
+}
+@media only screen and (max-width : 480px) {
+    #shopContainer{
+        padding-left: 30px;
+        padding-right: 30px;
+        justify-content: center;
+    }
+    
+   
+}
+.singleImg{
+    width: 560px;
+    height: 560px;
+}
+.singleTextDiv{
+    padding-top: 70px;
+    padding-bottom: 70px;
+}
+.singleName{
+    font-family: 'Roboto Condensed', sans-serif;
+    font-weight: bold;
+    font-style: italic;
+}
+.singlePrice{
+    font-family: 'Roboto Condensed', sans-serif;
+    font-weight: bold;
+    font-style: italic;
+}
+.singleCartBtn{
+    background-color:rgba(20, 51, 86);;
+    color: #FAFAFA;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-style: italic;
+    width: 200px;
+    height: 50px;
+    font-size: 23px;
+    border-radius: 50px;
+
+}
+#bodyIndex{
+    overflow: hidden;
 }

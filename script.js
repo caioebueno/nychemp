@@ -106,38 +106,38 @@ function getKeyByValue(object, value) {
     var response = snapshot.val();
     var y = 0;
         
-    for (el in response) {
-        response[y] = response[el];
-        y++;
-    }
+   var responseEl = newObjVar(response);
+   console.log( Object.keys(response).length);
+   console.log(response);
+   console.log(responseEl);
 
-        for(i = 0; i < Object.keys(response).length/2; i++){
+        for(i = 0; i < Object.keys(response).length; i++){
 
             
-            var imgUrl = response[i].img;
+            var imgUrl = responseEl[i].img;
             var storageRef = firebase.storage().ref("img/" + imgUrl + "");
-            var title = response[i].name;
-            var price = response[i].price;
+            var title = responseEl[i].name;
+            var price = responseEl[i].price;
+            var desc = responseEl[i].desc;
             
-            await storageRef.getDownloadURL().then(function(url) {
+           
         
             console.log(title);     
             var productDiv = document.createElement("div");
-            productDiv.setAttribute("class", "col-md-6 col-12 productCard");
-            productDiv.setAttribute("align", "center");
+            productDiv.setAttribute("class", "col-lg-6 col-12 row align-items-center justify-content-center");
             var dataName = "getAttribute('data-name')";
             var id = i;
-            var innerText = "<div class='card' style='width: 18rem;'><img src='" + url + "' class='card-img-top' alt='...'><div class='card-body'><h5 class='card-title'>" + title + "</h5><p class='card-text'>" + price + "</p><button href='#' onclick='showProduct(event, this.id)' id='" + id + "' class='btn btn-primary' data-name=" + title + ">See Product</button> </div></div>";
+            var innerText = "<div class='col-md-6 col-12 align-self-center cellCenter'><img class='imgProductB' id='imgProductB' src='" + imgUrl  + "' alt=''></div><div class='col-md-5 col-12 cellCenter' id='infoDiv'><div class='row prodcutNameRow productPadding' id='prodcutNameRow'>" + title + "</div><div class='row productPriceRow productPadding' id='productPriceRow'>" + price + "</div><div class='row productDescRow productPadding' id='productDescRow'>" + desc + "</div><div class='row productBtnRow productPadding' ><button id='" + id + "' onclick='showProduct(event, this.id)' class='productBtn'>See product</button></div></div>";
             productDiv.innerHTML = innerText;
             var shopContainer = document.getElementById("shopContainer");
             shopContainer.append(productDiv);
             
         
+    };    
         });
-        }
+        
 
-    });
- };
+    };
 
 
 if (document.title == "Shop"){
@@ -301,13 +301,15 @@ function singleProduct(){
         var imgUrl = response[id].img;
         var name = response[id].name;
         var price = response[id].price;
-        var storageRef = firebase.storage().ref("img/" + imgUrl + "");
-        await storageRef.getDownloadURL().then(function(url) {
+        var desc = response[id].desc;
+       
+       
 
-        var innerText = "<div class='card' style='width: 18rem;'><img src='" + url + "' class='card-img-top' alt='...'><div class='card-body'><h5 class='card-title'>" + name + "</h5><p class='card-text'>" + price + "</p><button href='#' onclick='addToCart()' id='' class='btn btn-primary' data-name=" + name + ">Add To Cart</button> </div></div>";
+        
+        var innerText =  "<div class='col-3'> <img src='" + imgUrl + "' class='singleImg' alt=''></div><div class='col-4 row align-items-center singleTextDiv'><div class='col-12'><H2 class='singleName'>" + name + "</H2></div><div class='col-12'><h4 class='singlePrice'>$8.50 - $15.75</h4></div><div class='col-12'><p>" + desc +"</p></div><div class='col-12'>size</div><div class='col-12'>" + price + "</div><div class='col-12'><button onclick='addToCart()' class='singleCartBtn'>Add to cart</button></div></div>"
         productContainer.innerHTML = innerText;
         console.log(url);
-        });
+        
     });
 }
 if(document.title == "Product"){
@@ -362,7 +364,7 @@ function showCart(){
     
     for(var i = 0; i < Object.keys(arrayCountVar).length; i++){
         var jk = newObjVar(arrayCountVar);
-        console.log(jk);
+        console.log(Object.keys(arrayCountVar).length);
         
         var keyId = Object.keys(arrayCountVar)[i];  
        
