@@ -207,15 +207,9 @@ body{
     position: relative;
 
 }
-@media only screen and (max-width : 480px) {
-    #shopContainer{
-        padding-left: 30px;
-        padding-right: 30px;
-        justify-content: center;
-    }
     
    
-}
+
 .singleImg{
     width: 560px;
     height: 560px;
@@ -248,3 +242,13 @@ body{
 #bodyIndex{
     overflow: hidden;
 }
+@media only screen and (max-width : 480px) {
+    #shopContainer{
+        padding-left: 30px;
+        padding-right: 30px;
+        justify-content: center;
+    }
+    .singleImg{
+        width: 400px;
+        height: 400px;
+    }

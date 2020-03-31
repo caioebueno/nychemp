@@ -306,7 +306,7 @@ function singleProduct(){
        
 
         
-        var innerText =  "<div class='col-3'> <img src='" + imgUrl + "' class='singleImg' alt=''></div><div class='col-4 row align-items-center singleTextDiv'><div class='col-12'><H2 class='singleName'>" + name + "</H2></div><div class='col-12'><h4 class='singlePrice'>$8.50 - $15.75</h4></div><div class='col-12'><p>" + desc +"</p></div><div class='col-12'>size</div><div class='col-12'>" + price + "</div><div class='col-12'><button onclick='addToCart()' class='singleCartBtn'>Add to cart</button></div></div>"
+        var innerText =  "<div class='col-md-3 col-12'> <img src='" + imgUrl + "' class='singleImg' alt=''></div><div class='col-md-4 col-12 row align-items-center singleTextDiv'><div class='col-12'><H2 class='singleName'>" + name + "</H2></div><div class='col-12'><h4 class='singlePrice'>$8.50 - $15.75</h4></div><div class='col-12'><p>" + desc +"</p></div><div class='col-12'>size</div><div class='col-12'>" + price + "</div><div class='col-12'><button onclick='addToCart()' class='singleCartBtn'>Add to cart</button></div></div>"
         productContainer.innerHTML = innerText;
         console.log(url);
         
