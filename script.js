@@ -306,7 +306,7 @@ function singleProduct(){
        
 
         
-        var innerText =  "<div class='col-md-3 col-12'> <img src='" + imgUrl + "' class='singleImg' alt=''></div><div class='col-md-4 col-12 row align-items-center singleTextDiv'><div class='col-12'><H2 class='singleName'>" + name + "</H2></div><div class='col-12'><h4 class='singlePrice'>$8.50 - $15.75</h4></div><div class='col-12'><p>" + desc +"</p></div><div class='col-12'>size</div><div class='col-12'>" + price + "</div><div class='col-12'><button onclick='addToCart()' class='singleCartBtn'>Add to cart</button></div></div>"
+        var innerText =  "<div class='col-md-3 col-12'> <img src='" + imgUrl + "' class='singleImg' alt=''></div><div class='col-md-4 col-12 row align-items-center singleTextDiv'><div class='col-12'><H2 class='singleName'>" + name + "</H2></div><div class='col-12'><h4 class='singlePrice'>$8.50 - $15.75</h4></div><div class='col-12'><p>" + desc +"</p></div><div class='col-12'><h3>Size</h3><select id='selectSize'><option value='3.5'>3.5 grams</option><option value='7'>7 grams</option></select></div><div class='col-12'>" + price + "</div><div class='col-12'><button onclick='addToCart()' class='singleCartBtn'>Add to cart</button></div></div>"
         productContainer.innerHTML = innerText;
         console.log(url);
         
@@ -465,13 +465,43 @@ if(document.title == "Cart"){
 function clearCart(){
 
     localStorage.clear("cart");
+    
     showCart();
 }
-
+if(document.title == "Cart"){
 var btnClearCart = document.getElementById("clearCart");
 btnClearCart.addEventListener("click", clearCart);
+}
 
+//product Info
 
+function productInfo(){
+    
+    var reviewBtn = document.getElementById("reviewBtn");
+    var descriptionBtn = document.getElementById("descriptionBtn");
+    var certificateBtn = document.getElementById("certificateBtn");
 
+    reviewBtn.addEventListener("click", function(){
+        reviewBtn.setAttribute("class", "productInfoDivActive col-4 textCenter");
+        descriptionBtn.setAttribute("class", "productInfoDiv col-4 textCenter");
+        certificateBtn.setAttribute("class", "productInfoDiv col-4 textCenter");
+    })
 
+    descriptionBtn.addEventListener("click", function(){
+        reviewBtn.setAttribute("class", "productInfoDiv col-4 textCenter");
+        descriptionBtn.setAttribute("class", "productInfoDivActive col-4 textCenter");
+        certificateBtn.setAttribute("class", "productInfoDiv col-4 textCenter");
+    })
+    certificateBtn.addEventListener("click", function(){
+        reviewBtn.setAttribute("class", "productInfoDiv col-4 textCenter");
+        descriptionBtn.setAttribute("class", "productInfoDiv col-4 textCenter");
+        certificateBtn.setAttribute("class", "productInfoDivActive col-4 textCenter");
+    })
+
+}
+
+console.log(document.title == "Product")
+if(document.title == "Product"){
+    productInfo();
+}
 
